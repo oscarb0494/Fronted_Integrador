@@ -3,9 +3,9 @@ import { Link, useHistory } from 'react-router-dom'
 import { UserContext } from '../App'
 
 import Paper from '@mui/material/Paper';
-import { ViewState } from '@devexpress/dx-react-scheduler';
+import { ViewState, EditingState, IntegratedEditing } from '@devexpress/dx-react-scheduler';
 
-import { Scheduler, DayView, Appointments, } from '@devexpress/dx-react-scheduler-material-ui';
+import { Scheduler, WeekView, Appointments, AppointmentForm } from '@devexpress/dx-react-scheduler-material-ui';
 import { Inject, ScheduleComponent, Day, Week, WorkWeek, Month, Agenda } from '@syncfusion/ej2-react-schedule'
 
 const Cronograma = () => {
@@ -16,24 +16,19 @@ const Cronograma = () => {
         { startDate: '2018-11-01T12:00', endDate: '2018-11-01T13:30', title: 'Go to a gym' },
     ];
 
-    return (/*<ScheduleComponent>
-        <Inject services={[Day, Week, WorkWeek, Month, Agenda]} />
-    </ScheduleComponent>*/
-
-        <Paper>
-            <Scheduler
-                data={schedulerData}
-            >
-                <ViewState
-                    currentDate={currentDate}
-                />
-                <DayView
-                    startDayHour={9}
-                    endDayHour={14}
-                />
+    return (
+        <div id="calendar">
+            <Scheduler data={schedulerData}>
+                <ViewState currentDate={currentDate} />
+                <EditingState />
+                <IntegratedEditing />
+                <WeekView startDayHour={7} endDayHour={22} />
                 <Appointments />
+                <AppointmentForm />
             </Scheduler>
-        </Paper>
+        </div>
+
+
 
     )
 }
