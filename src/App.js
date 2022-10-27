@@ -13,7 +13,16 @@ import Stats from './components/Stats'
 import Cronograma from './components/Cronograma'
 
 import { reducer, initialState } from './reducers/userReducer'
+import SignupForm from './components/SignupForm'
 import LoginForm from './components/LoginForm'
+import DepartamentoForm from './components/DepartamentoForm'
+import DepartamentoList from './components/DepartamentoList'
+import SedeList from './components/SedeList'
+import Departamento from './components/Departamento'
+import Espacio from './components/Espacio'
+import SedeForm from './components/SedeForm'
+import EspacioForm from './components/EspacioForm'
+
 
 import "./App.css"
 
@@ -89,23 +98,47 @@ const Routing = () => {
           <Cronograma />
         </Route>
 
+        <Route path="/departamento">
+          <DepartamentoList />
+        </Route>
+
+        <Route path="/sede">
+          <SedeForm />
+        </Route>
+
+        <Route path="/departamentos/:dptoid">
+          <Departamento />
+        </Route>
+
+        <Route path="/espacio/:espacioid">
+          <EspacioForm />
+        </Route>
+
+         <Route path="/espacios/:sede_id">
+          <Espacio />
+        </Route>
+
+        <Route path="/sedes">
+          <SedeList />
+        </Route>
+
         <Route path="/loginform">
           <div className="App">
             <nav>
               <h3
                 onClick={() => setView("basic")}
-                style={{ color: view === "basic" ? "#fff" : "" }}
+                style={{ color: view === "basic" ? "#FF0000" : "" }}
               >
-                Basic
+                Login
               </h3>
               <h3
                 onClick={() => setView("advanced")}
-                style={{ color: view === "advanced" ? "#fff" : "" }}
+                style={{ color: view === "advanced" ? "#FF0000" : "" }}
               >
-                Advanced
+                Registro
               </h3>
             </nav>
-            {view === "basic" ? <LoginForm /> : <Signup />}
+            {view === "basic" ? <SignupForm /> : <LoginForm />}
           </div>
         </Route>
 

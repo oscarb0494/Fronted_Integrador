@@ -1,5 +1,5 @@
 import { useFormik } from "formik";
-import { loginSchema } from "../schemas";
+import { deptoSchema } from "../schemas";
 
 import React,{useState,useContext} from 'react'
 import Swal from 'sweetalert2'
@@ -14,11 +14,7 @@ const onSubmit = async (values, actions) => {
   actions.resetForm();
 };
 
-const LoginForm = () => {
-
-  const {state,dispatch} = useContext(UserContext)
-  const history = useHistory();
-
+const DepartamentoForm = () => {
   const Toast = Swal.mixin({
       toast: true,
       position: 'top-end',
@@ -31,8 +27,8 @@ const LoginForm = () => {
       }
   })
 
-    const login = (datos)=>{
-      fetch("http://localhost:3000/users/signin",{
+    const registrarDepartamento = (datos)=>{
+      fetch("http://localhost:3000/departamento/createdepartamento",{
         method:"post",
         headers:{
           "Content-Type":"application/json"
@@ -47,16 +43,10 @@ const LoginForm = () => {
               footer: '<a href="">Why do I have this issue?</a>'
           })
         } else{
-          localStorage.setItem("jwt",data.token)
-          localStorage.setItem("user",JSON.stringify(data.user))
-          dispatch({type:"USER",payload:data.user})
-
           Toast.fire({
             icon: 'success',
             title: 'Signed in successfully'
           })
-          
-          history.push('/')
         }
       })
   }
@@ -74,42 +64,40 @@ const LoginForm = () => {
       email: "",
       password: ""
     },
-    validationSchema: loginSchema,
+    validationSchema: deptoSchema,
     onSubmit: values => {
-      login(JSON.stringify(values, null, 2));
+      registrarDepartamento(JSON.stringify(values, null, 2));
     },
   });
 
   console.log(errors);
 
-
-
   return (
     <form onSubmit={handleSubmit} autoComplete="off">
 
-      <label htmlFor="email">Email</label>
+      <label htmlFor="nombre">Nombre del departamento</label>
       <input
-        value={values.email}
+        value={values.nombre}
         onChange={handleChange}
-        id="email"
-        type="email"
-        placeholder="Enter your email"
+        id="nombre"
+        type="text"
+        placeholder="Ingresa el nombre del departamento"
         onBlur={handleChange}
-        className={errors.email && touched.email ? "input-error" : ""}
+        className={errors.nombre && touched.nombre ? "input-error" : ""}
       />
-      {errors.email && touched.email && <p className="error">{errors.email}</p>}
-      <label htmlFor="password">Password</label>
+      {errors.nombre && touched.nombre && <p className="error">{errors.nombre}</p>}
+      <label htmlFor="password">Descripción</label>
       <input
-        id="password"
-        type="password"
-        placeholder="Enter your password"
-        value={values.password}
+        id="descripcion"
+        type="text"
+        placeholder="Ingresa una descripción"
+        value={values.descripcion}
         onChange={handleChange}
         onBlur={handleBlur}
-        className={errors.password && touched.password ? "input-error" : ""}
+        className={errors.descripcion && touched.descripcion ? "input-error" : ""}
       />
-      {errors.password && touched.password && (
-        <p className="error">{errors.password}</p>
+      {errors.descripcion && touched.descripcion && (
+        <p className="error">{errors.descripcion}</p>
       )}
 
       <button disabled={isSubmitting} type="submit"
@@ -119,4 +107,4 @@ const LoginForm = () => {
     </form>
   );
 };
-export default LoginForm;
+export default DepartamentoForm;

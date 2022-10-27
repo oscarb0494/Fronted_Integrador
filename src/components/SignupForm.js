@@ -1,5 +1,5 @@
 import { useFormik } from "formik";
-import { loginSchema } from "../schemas";
+import { basicSchema } from "../schemas";
 
 import React,{useState,useContext} from 'react'
 import Swal from 'sweetalert2'
@@ -14,10 +14,12 @@ const onSubmit = async (values, actions) => {
   actions.resetForm();
 };
 
-const LoginForm = () => {
+const SignupForm = () => {
 
-  const {state,dispatch} = useContext(UserContext)
-  const history = useHistory();
+  const history = useHistory()
+  const [nombre,setNombre] = useState("")
+  const [password,setPassword] = useState("")
+  const [email,setEmail] = useState("")
 
   const Toast = Swal.mixin({
       toast: true,
@@ -31,8 +33,8 @@ const LoginForm = () => {
       }
   })
 
-    const login = (datos)=>{
-      fetch("http://localhost:3000/users/signin",{
+    const registrar = (datos)=>{
+      fetch("http://localhost:3000/users/signup",{
         method:"post",
         headers:{
           "Content-Type":"application/json"
@@ -47,16 +49,12 @@ const LoginForm = () => {
               footer: '<a href="">Why do I have this issue?</a>'
           })
         } else{
-          localStorage.setItem("jwt",data.token)
-          localStorage.setItem("user",JSON.stringify(data.user))
-          dispatch({type:"USER",payload:data.user})
-
           Toast.fire({
-            icon: 'success',
-            title: 'Signed in successfully'
+              icon: 'success',
+              title: 'Signed in successfully'
           })
-          
-          history.push('/')
+
+          history.push('/signup')
         }
       })
   }
@@ -71,12 +69,14 @@ const LoginForm = () => {
     handleSubmit,
   } = useFormik({
     initialValues: {
+      nombre: "",
       email: "",
-      password: ""
+      password: "",
+      confirmPassword: "",
     },
-    validationSchema: loginSchema,
+    validationSchema: basicSchema,
     onSubmit: values => {
-      login(JSON.stringify(values, null, 2));
+      registrar(JSON.stringify(values, null, 2));
     },
   });
 
@@ -86,6 +86,17 @@ const LoginForm = () => {
 
   return (
     <form onSubmit={handleSubmit} autoComplete="off">
+      <label htmlFor="nombre">Nombre completo:</label>
+      <input
+        id="nombre"
+        type="text"
+        placeholder="Ingresa tu nombre"
+        value={values.nombre}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        className={errors.nombre && touched.nombre ? "input-error" : ""}
+      />
+      {errors.nombre && touched.nombre && <p className="error">{errors.nombre}</p>}
 
       <label htmlFor="email">Email</label>
       <input
@@ -111,7 +122,21 @@ const LoginForm = () => {
       {errors.password && touched.password && (
         <p className="error">{errors.password}</p>
       )}
-
+      <label htmlFor="confirmPassword">Confirm Password</label>
+      <input
+        id="confirmPassword"
+        type="password"
+        placeholder="Confirm password"
+        value={values.confirmPassword}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        className={
+          errors.confirmPassword && touched.confirmPassword ? "input-error" : ""
+        }
+      />
+      {errors.confirmPassword && touched.confirmPassword && (
+        <p className="error">{errors.confirmPassword}</p>
+      )}
       <button disabled={isSubmitting} type="submit"
       >
         Submit
@@ -119,4 +144,4 @@ const LoginForm = () => {
     </form>
   );
 };
-export default LoginForm;
+export default SignupForm;
