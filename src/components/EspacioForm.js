@@ -7,8 +7,6 @@ import {Link,useParams,useHistory} from 'react-router-dom'
 import {UserContext} from '../App'
 import Loader from "react-loader-spinner"
 
-import CustomSelect from "./CustomSelect";
-
 const onSubmit = async (values, actions) => {
   console.log(values);
   console.log(actions);

@@ -5,7 +5,6 @@ import React,{useState,useContext} from 'react'
 import Swal from 'sweetalert2'
 import {useHistory} from 'react-router-dom'
 import {UserContext} from '../App'
-import Loader from "react-loader-spinner"
 
 const onSubmit = async (values, actions) => {
   console.log(values);

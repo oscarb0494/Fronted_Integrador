@@ -1,15 +1,12 @@
 import React, { useEffect, createContext, useReducer, useContext, Suspense, lazy,useState } from 'react'
-import { BrowserRouter, Route, Switch, useHistory } from 'react-router-dom'
+import { BrowserRouter, Route, Switch, useHistory, Redirect } from 'react-router-dom'
+
 import Loader from "react-loader-spinner"
 
 import NavBar from './components/NavBar'
 import Login from './components/Login'
 import Signup from './components/Signup'
-import CreatePost from './components/CreatePost'
-import SuscribesUsers from './components/SuscribesUsers'
-import Entry from './components/Entry'
 import Inicio from './components/Inicio'
-import Stats from './components/Stats'
 import Cronograma from './components/Cronograma'
 
 import { reducer, initialState } from './reducers/userReducer'
@@ -17,16 +14,17 @@ import SignupForm from './components/SignupForm'
 import LoginForm from './components/LoginForm'
 import DepartamentoForm from './components/DepartamentoForm'
 import DepartamentoList from './components/DepartamentoList'
-import SedeList from './components/SedeList'
 import Departamento from './components/Departamento'
 import Espacio from './components/Espacio'
 import SedeForm from './components/SedeForm'
 import EspacioForm from './components/EspacioForm'
 
+import Sidebar from './components/Sidebar/Sidebar'
+import Header from './components/Header/Header'
+import Layout from './components/Layout/Layout'
 
 import "./App.css"
 
-const Home = lazy(() => import("./components/Home"))
 const Profile = lazy(() => import("./components/Profile"))
 const UserProfile = lazy(() => import("./components/UserProfile"))
 
@@ -58,13 +56,10 @@ const Routing = () => {
     />
     }>
       <Switch>
-        <Route exact path="/">
-          <Inicio />
-        </Route>
-
-        <Route exact path="/discovery">
-          <SuscribesUsers />
-        </Route>
+        
+        <Route path="/" exact render={() => <Redirect to="/app/main"/>}/>
+        <Route path="/app" exact render={() => <Redirect to="/app/main"/>}/>
+        <Route path="/app" component={Layout}/>
 
         <Route exact path="/profile">
           <Profile />
@@ -72,14 +67,6 @@ const Routing = () => {
 
         <Route path="/profile/:userid">
           <UserProfile />
-        </Route>
-
-        <Route path="/entry/:entryid">
-          <Entry />
-        </Route>
-
-        <Route path="/post">
-          <Home />
         </Route>
 
         <Route path="/login">
@@ -90,24 +77,8 @@ const Routing = () => {
           <Signup />
         </Route>
 
-        <Route path="/createpost">
-          <CreatePost />
-        </Route>
-
         <Route path="/cronograma">
           <Cronograma />
-        </Route>
-
-        <Route path="/departamento">
-          <DepartamentoList />
-        </Route>
-
-        <Route path="/sede">
-          <SedeForm />
-        </Route>
-
-        <Route path="/departamentos/:dptoid">
-          <Departamento />
         </Route>
 
         <Route path="/espacio/:espacioid">
@@ -116,10 +87,6 @@ const Routing = () => {
 
          <Route path="/espacios/:sede_id">
           <Espacio />
-        </Route>
-
-        <Route path="/sedes">
-          <SedeList />
         </Route>
 
         <Route path="/loginform">
@@ -153,14 +120,22 @@ const Routing = () => {
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
 
+
+
   return (
     <UserContext.Provider value={{ state, dispatch }}>
       <BrowserRouter>
-        <NavBar />
         <Routing />
       </BrowserRouter>
     </UserContext.Provider>
   );
+}
+
+function mapStateToProps(store) {
+  return {
+    sidebarOpened: store.navigation.sidebarOpened,
+    sidebarStatic: store.navigation.sidebarStatic,
+  };
 }
 
 export default App;

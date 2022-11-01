@@ -38,11 +38,6 @@
 }
 */
 
-.App {
-  text-align: center;
-  padding: 5rem 1rem;
-}
-
 .error {
   color: #fc8181;
   font-size: 0.75rem;
@@ -55,21 +50,6 @@
   justify-content: flex-start;
   align-items: center;
   margin-top: 1rem;
-}
-
-nav {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 2rem;
-}
-nav h3 {
-  margin: 1rem;
-  cursor: pointer;
-  color: #718096;
-}
-nav h3:hover {
-  color: white;
 }
 
 form {
@@ -91,9 +71,9 @@ select {
   width: 100%;
   padding: 0.65rem 0.5rem;
   font-size: 1rem;
-  color: white;
+  color: #000000;
   border: 2px solid #4a5568;
-  background-color: #2d3748;
+  background-color: #fffffa;
   border-radius: 10px;
   outline: none;
 }

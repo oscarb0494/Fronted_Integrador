@@ -1,0 +1,6 @@
+{
+  "name": "SedeForm",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./SedeForm.js"
+}

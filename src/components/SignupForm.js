@@ -1,11 +1,10 @@
 import { useFormik } from "formik";
 import { basicSchema } from "../schemas";
 
-import React,{useState,useContext} from 'react'
+import React,{useState} from 'react'
 import Swal from 'sweetalert2'
 import {useHistory} from 'react-router-dom'
 import {UserContext} from '../App'
-import Loader from "react-loader-spinner"
 
 const onSubmit = async (values, actions) => {
   console.log(values);
@@ -17,9 +16,6 @@ const onSubmit = async (values, actions) => {
 const SignupForm = () => {
 
   const history = useHistory()
-  const [nombre,setNombre] = useState("")
-  const [password,setPassword] = useState("")
-  const [email,setEmail] = useState("")
 
   const Toast = Swal.mixin({
       toast: true,
