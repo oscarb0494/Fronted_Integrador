@@ -1,11 +1,13 @@
 import { useFormik } from "formik";
 import { espacioSchema } from "../schemas";
 
-import React,{useState,useContext} from 'react'
+import React,{useState,useContext,useEffect} from 'react'
 import Swal from 'sweetalert2'
 import {Link,useParams,useHistory} from 'react-router-dom'
 import {UserContext} from '../App'
 import Loader from "react-loader-spinner"
+
+
 
 const onSubmit = async (values, actions) => {
   console.log(values);
@@ -14,9 +16,26 @@ const onSubmit = async (values, actions) => {
   actions.resetForm();
 };
 
-const EspacioForm = () => {
+const EspacioForm = ({manageState}) => {
 
-  const {espacioid} = useParams()
+  const [loading, setLoading] = useState(true)
+
+  const {sede_id} = useParams()
+
+  const [opciones,setOpciones] = useState([])
+
+  useEffect(()=>{
+    fetch("http://localhost:3000/espacio/getespaciostipo",{
+        method:"get",
+        headers:{
+          "Content-Type":"application/json"
+        }
+      }).then(res=>res.json())
+      .then(result=>{
+        setOpciones(result.departamentos)
+        setLoading(false)
+      })
+    })
 
   const Toast = Swal.mixin({
       toast: true,
@@ -50,6 +69,8 @@ const EspacioForm = () => {
             icon: 'success',
             title: 'Signed in successfully'
           })
+
+          manageState()
         }
       })
   }
@@ -68,7 +89,7 @@ const EspacioForm = () => {
       descripcion:"",
       capacidad: "",
       tipo_espacio:"",
-      sede: espacioid
+      sede: sede_id
     },
     validationSchema: espacioSchema,
     onSubmit: (values,actions) => {

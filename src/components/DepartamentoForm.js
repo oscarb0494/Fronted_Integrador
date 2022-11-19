@@ -13,7 +13,10 @@ const onSubmit = async (values, actions) => {
   actions.resetForm();
 };
 
-const DepartamentoForm = () => {
+const DepartamentoForm = ({manageState}) => {
+
+  const [data,setData] = useState([])
+
   const Toast = Swal.mixin({
       toast: true,
       position: 'top-end',
@@ -42,6 +45,10 @@ const DepartamentoForm = () => {
               footer: '<a href="">Why do I have this issue?</a>'
           })
         } else{
+
+          setData(data.departamentos)
+          manageState()
+
           Toast.fire({
             icon: 'success',
             title: 'Signed in successfully'
@@ -64,8 +71,9 @@ const DepartamentoForm = () => {
       password: ""
     },
     validationSchema: deptoSchema,
-    onSubmit: values => {
-      registrarDepartamento(JSON.stringify(values, null, 2));
+    onSubmit: (values,actions)  => {
+      registrarDepartamento(JSON.stringify(values, null, 2))
+      actions.resetForm()
     },
   });
 

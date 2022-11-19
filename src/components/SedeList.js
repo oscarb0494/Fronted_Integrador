@@ -5,7 +5,7 @@ import Loader from "react-loader-spinner"
 
 import {Table,Input,Label} from "reactstrap"
 
-const SedeList = ()=>{
+const SedeList = ({update})=>{
 
 	const [loading, setLoading] = useState(true)
 
@@ -22,7 +22,7 @@ const SedeList = ()=>{
 				setData(result.sedes)
 				setLoading(false)
 			})
-		},[])
+		},[update])
 
 	return (
 		loading?<Loader

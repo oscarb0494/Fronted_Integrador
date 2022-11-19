@@ -5,7 +5,7 @@ import Loader from "react-loader-spinner"
 
 import {Table,Input,Label} from "reactstrap"
 
-const Espacio= ()=>{
+const EspacioList = ({update})=>{
 
 	const [loading, setLoading] = useState(true)
 
@@ -24,9 +24,8 @@ const Espacio= ()=>{
 				setData(result.sede)
 				setLoading(false)
 			})
-		},[])
+		},[update])
 
-	
 	return (
 		loading?<Loader
 					className="centrar"
@@ -95,4 +94,4 @@ const Espacio= ()=>{
 	
 }
 
-export default 	Espacio;
+export default 	EspacioList;

@@ -18,12 +18,10 @@ import s from "./Layout.module.scss";
 
 // pages
 import Inicio from '../Inicio';
-import Departamento from '../Departamento'
-import DepartamentoList from '../DepartamentoList'
-import EspacioForm from '../EspacioForm'
-import SedeForm from '../SedeForm'
-import SedeList from '../SedeList'
-import Espacio from '../Espacio'
+import DepartamentoView from '../DepartamentoView'
+import SedeView from '../SedeView'
+import EspacioView from '../EspacioView'
+import MateriaList from '../MateriaList'
 
 class Layout extends React.Component {
   static propTypes = {
@@ -116,12 +114,12 @@ class Layout extends React.Component {
                       exact
                       component={Inicio}
                     />
-                    <Route path={"/app/typography"} component={Departamento} />
-                    <Route path={"/app/tables"} component={DepartamentoList} />
-                    <Route path={"/app/ui/maps"} component={SedeList} />
+                    <Route path={"/app/typography"} component={SedeView} />
+                    <Route path={"/app/tables"} component={DepartamentoView} />
+                    <Route path={"/app/ui/maps"} component={SedeView} />
 
-                    <Route path={"/app/espacios/:sede_id"} component={Espacio} />
-                    <Route path={"/app/departamento/:dptoid"} component={Departamento} />
+                    <Route path={"/app/espacios/:sede_id"} component={EspacioView} />
+                    <Route path={"/app/departamento/:dptoid"} component={SedeView} />
                     <Route
                       path={"/app/ui/notifications"}
                       component={Inicio}

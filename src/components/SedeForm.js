@@ -12,7 +12,7 @@ const onSubmit = async (values, actions) => {
   actions.resetForm();
 };
 
-const SedeForm = () => {
+const SedeForm = ({manageState}) => {
   const Toast = Swal.mixin({
       toast: true,
       position: 'top-end',
@@ -45,6 +45,9 @@ const SedeForm = () => {
             icon: 'success',
             title: 'Signed in successfully'
           })
+
+          manageState()
+
         }
       })
   }
@@ -92,7 +95,7 @@ const SedeForm = () => {
         onChange={handleChange}
         id="nombre"
         type="text"
-        placeholder="Ingresa el nombre del departamento"
+        placeholder="Ingresa el nombre de la sede"
         onBlur={handleChange}
         className={errors.nombre && touched.nombre ? "input-error" : ""}
       />

@@ -98,7 +98,7 @@ class Sidebar extends React.Component {
                 this.props.dispatch(changeActiveSidebarItem(activeItem))
               }
               activeItem={this.props.activeItem}
-              header="Typography"
+              header="Sedes"
               isHeader
               link="/app/typography"
               index="main"
@@ -124,7 +124,7 @@ class Sidebar extends React.Component {
                 this.props.dispatch(changeActiveSidebarItem(activeItem))
               }
               activeItem={this.props.activeItem}
-              header="Tables"
+              header="Departamentos"
               isHeader
               link="/app/tables"
               index="main"
@@ -169,7 +169,7 @@ class Sidebar extends React.Component {
                   link: "/app/ui/icons"
                 },
                 {
-                  header: "Maps",
+                  header: "Sedes",
                   link: "/app/ui/maps"
                 }
               ]}

@@ -3,7 +3,6 @@ import { BrowserRouter, Route, Switch, useHistory, Redirect } from 'react-router
 
 import Loader from "react-loader-spinner"
 
-import NavBar from './components/NavBar'
 import Login from './components/Login'
 import Signup from './components/Signup'
 import Inicio from './components/Inicio'
@@ -12,15 +11,7 @@ import Cronograma from './components/Cronograma'
 import { reducer, initialState } from './reducers/userReducer'
 import SignupForm from './components/SignupForm'
 import LoginForm from './components/LoginForm'
-import DepartamentoForm from './components/DepartamentoForm'
-import DepartamentoList from './components/DepartamentoList'
-import Departamento from './components/Departamento'
-import Espacio from './components/Espacio'
-import SedeForm from './components/SedeForm'
-import EspacioForm from './components/EspacioForm'
 
-import Sidebar from './components/Sidebar/Sidebar'
-import Header from './components/Header/Header'
 import Layout from './components/Layout/Layout'
 
 import "./App.css"
@@ -35,16 +26,16 @@ const Routing = () => {
   const { state, dispatch } = useContext(UserContext)
   const [view, setView] = useState("basic");
 
-  useEffect(() => {
+  /*useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"))
     console.log(user);
 
     if (user) {
       dispatch({ type: "USER", payload: user })
     } else {
-      history.push('/login')
+      history.push('/LoginForm')
     }
-  }, [])
+  }, [])*/
 
   return (
     <Suspense fallback={<Loader
@@ -79,14 +70,6 @@ const Routing = () => {
 
         <Route path="/cronograma">
           <Cronograma />
-        </Route>
-
-        <Route path="/espacio/:espacioid">
-          <EspacioForm />
-        </Route>
-
-         <Route path="/espacios/:sede_id">
-          <Espacio />
         </Route>
 
         <Route path="/loginform">
