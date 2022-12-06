@@ -76,7 +76,7 @@ const DepartamentoList = ({update})=>{
 				                          					/>
 				                        				</div>
 						      						</td>
-						      						<td><Link to={"/app/departamento/"+item.id}>{item.nombre}</Link></td>
+						      						<td><Link to={"/app/materias/"+item.id}>{item.nombre}</Link></td>
 						      						<td>{item.descripcion}</td>
 						      						<td>{item.createdAt}</td>
 						      					</tr>

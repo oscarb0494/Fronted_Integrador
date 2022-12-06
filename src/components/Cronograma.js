@@ -5,17 +5,23 @@ import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Typography from '@mui/material/FormControl';
 import { styled } from '@mui/material/styles';
-import { ViewState, EditingState, IntegratedEditing } from '@devexpress/dx-react-scheduler';
+import { ViewState, EditingState, IntegratedEditing} from '@devexpress/dx-react-scheduler';
 import {
   Scheduler,
   WeekView,
+  DayView,
   Appointments,
   AppointmentForm,
   AppointmentTooltip,
   DragDropProvider,
+  ViewSwitcher,
+  Toolbar,
+  DateNavigator,
+  TodayButton
 } from '@devexpress/dx-react-scheduler-material-ui';
 
 import { appointments } from './appointments.json';
+import { useParams } from 'react-router-dom';
 
 const PREFIX = 'Demo';
 export const classes = {
@@ -35,7 +41,6 @@ const StyledDiv = styled('div')(({ theme }) => ({
   },
 }));
 
-const currentDate = Date.now();
 const editingOptionsList = [
   { id: 'allowAdding', text: 'Adding' },
   { id: 'allowDeleting', text: 'Deleting' },
@@ -74,13 +79,20 @@ const EditingOptionsSelector = ({
 
 export default () => {
   const [data, setData] = React.useState(appointments);
-  const [url,setUrl] = React.useState("");
+  const [url, setUrl] = React.useState("");
+
+  const [currentDate, setCurrentDate] = React.useState(Date.now())
+
+  const { espacioid } = useParams()
+
+  const currentDateChange = (currentDate) => { setCurrentDate(currentDate) };
+
   const [editingOptions, setEditingOptions] = React.useState({
     allowAdding: true,
     allowDeleting: true,
-    allowUpdating: true,
-    allowDragging: true,
-    allowResizing: true,
+    allowUpdating: false,
+    allowDragging: false,
+    allowResizing: false,
   });
   const [addedAppointment, setAddedAppointment] = React.useState({});
   const [isAppointmentBeingCreated, setIsAppointmentBeingCreated] = React.useState(false);
@@ -90,17 +102,17 @@ export default () => {
   } = editingOptions;
 
 
-    React.useEffect(()=>{
-    fetch("http://localhost:3000/horario/gethorariosfinal",{
-        headers:{
-          "Content-Type": "application/json"
-        }
-      }).then(res=>res.json())
-      .then(result=>{
+  React.useEffect(() => {
+    fetch("http://localhost:3000/horario/gethorariosfinal/" + espacioid, {
+      headers: {
+        "Content-Type": "application/json"
+      }
+    }).then(res => res.json())
+      .then(result => {
         setData(result.horario)
         console.log(result.horario)
       })
-    },[])
+  }, [])
 
 
   const onCommitChanges = React.useCallback(({ added, changed, deleted }) => {
@@ -110,16 +122,16 @@ export default () => {
 
       console.log(added)
 
-      fetch("http://localhost:3000/horario/createhorario",{
-        method:"post",
-        headers:{
-          "Content-Type":"application/json",
+      fetch("http://localhost:3000/horario/createhorario", {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(added)
-      }).then(res=>res.json()).then(data=>{
-        if(data.error){
+      }).then(res => res.json()).then(data => {
+        if (data.error) {
           console.log("error")
-        } else{
+        } else {
           console.log("agregado")
         }
       })
@@ -170,12 +182,23 @@ export default () => {
     [allowResizing, allowUpdating],
   );
 
+  const Appointment = ({
+    children, style, ...restProps
+  }) => (
+    <Appointments.Appointment
+      {...restProps}
+      style={{
+        ...style,
+        backgroundColor: '#FFC107',
+        borderRadius: '8px',
+      }}
+    >
+      {children}
+    </Appointments.Appointment>
+  );
+
   return (
     <React.Fragment>
-      <EditingOptionsSelector
-        options={editingOptions}
-        onOptionsChange={handleEditingOptionsChange}
-      />
       <Paper>
         <Scheduler
           data={data}
@@ -183,6 +206,7 @@ export default () => {
         >
           <ViewState
             currentDate={currentDate}
+            onCurrentDateChange={currentDateChange}
           />
           <EditingState
             onCommitChanges={onCommitChanges}
@@ -197,7 +221,15 @@ export default () => {
             timeTableCellComponent={TimeTableCell}
           />
 
-          <Appointments />
+          <DayView
+            startDayHour={9}
+            endDayHour={18}>
+          </DayView>
+
+          <Toolbar />
+          <DateNavigator />
+          <ViewSwitcher />
+          <Appointments appointmentComponent={Appointment} />
 
           <AppointmentTooltip
             showOpenButton

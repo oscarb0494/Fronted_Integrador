@@ -22,6 +22,10 @@ import DepartamentoView from '../DepartamentoView'
 import SedeView from '../SedeView'
 import EspacioView from '../EspacioView'
 import MateriaList from '../MateriaList'
+import RecursoForm from "../RecursoForm";
+import RecursoView from "../RecursoView";
+import MateriaView from "../MateriaView";
+import SemestresView from "../SemestresView";
 
 class Layout extends React.Component {
   static propTypes = {
@@ -112,7 +116,7 @@ class Layout extends React.Component {
                     <Route
                       path="/app/main/dashboard"
                       exact
-                      component={Inicio}
+                      component={SemestresView}
                     />
                     <Route path={"/app/typography"} component={SedeView} />
                     <Route path={"/app/tables"} component={DepartamentoView} />
@@ -120,6 +124,9 @@ class Layout extends React.Component {
 
                     <Route path={"/app/espacios/:sede_id"} component={EspacioView} />
                     <Route path={"/app/departamento/:dptoid"} component={SedeView} />
+                    <Route path={"/app/recursos/:espacioid"} component={RecursoView} />
+                    <Route path={"/app/materias/:dptoid"} component={MateriaView} />
+
                     <Route
                       path={"/app/ui/notifications"}
                       component={Inicio}

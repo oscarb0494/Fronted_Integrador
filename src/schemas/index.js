@@ -28,6 +28,13 @@ export const deptoSchema = yup.object().shape({
   descripcion: yup.string().required("Required")
 })
 
+export const recursoSchema = yup.object().shape({
+  nombre: yup.string().required("Required"),
+  descripcion: yup.string(),
+  estado: yup.string(),
+  tipo_recurso: yup.number().required(),
+})
+
 export const materiaSchema = yup.object().shape({
   codigo: yup.string().required("Required"),
   nombre: yup.string().required("Required"),

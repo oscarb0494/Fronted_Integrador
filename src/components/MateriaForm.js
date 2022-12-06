@@ -14,7 +14,7 @@ const onSubmit = async (values, actions) => {
   actions.resetForm();
 };
 
-const MateriaForm = () => {
+const MateriaForm = ({manageState}) => {
 
   const {dptoid} = useParams()
 
@@ -50,6 +50,8 @@ const MateriaForm = () => {
             icon: 'success',
             title: 'Signed in successfully'
           })
+
+          manageState()
         }
       })
   }

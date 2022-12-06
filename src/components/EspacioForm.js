@@ -25,17 +25,18 @@ const EspacioForm = ({manageState}) => {
   const [opciones,setOpciones] = useState([])
 
   useEffect(()=>{
-    fetch("http://localhost:3000/espacio/getespaciostipo",{
+    fetch("http://localhost:3000/tipoespacios/getespaciostipo",{
         method:"get",
         headers:{
           "Content-Type":"application/json"
         }
       }).then(res=>res.json())
       .then(result=>{
-        setOpciones(result.departamentos)
+        setOpciones(result.tipos)
+        alert(result.tipos)
         setLoading(false)
       })
-    })
+    },[])
 
   const Toast = Swal.mixin({
       toast: true,
@@ -153,10 +154,9 @@ const EspacioForm = ({manageState}) => {
             placeholder="Selecciona el tipo de sala"
           >
             <option value="">Por favor selecciona un tipo de sala</option>
-            <option value="2">Sala de informatica</option>
-            <option value="designer">Designer</option>
-            <option value="manager">Product Manager</option>
-            <option value="other">Other</option>
+
+            <option value="1">Sala de informatica</option>
+
         </select>
 
       <button disabled={isSubmitting} type="submit"

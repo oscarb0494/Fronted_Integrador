@@ -176,8 +176,7 @@ class Header extends React.Component {
             style={{ marginRight: 12 }}
           />
         </NavItem>
-        <button className={`btn btn-bordered ml-auto ${s.fullVersionBtn}`} onMouseOver={() => this.changeArrowImg()} onMouseLeave={() => this.changeArrowImgOut()}>
-          <a href="https://flatlogic.com/templates/one-react-template/demo" target={"_black"}>Unlock Full Version<img src={this.state.arrowImg} alt="" style={{marginLeft: 14}}/></a></button>
+        
         <Form className={`d-md-down-none`} inline>
           <InputGroup
             onFocus={this.toggleFocus}
