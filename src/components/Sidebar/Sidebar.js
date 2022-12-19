@@ -23,7 +23,14 @@ import settingsIcon from "../../images/settings.svg";
 import logoutIcon from "../../images/logout.svg";
 import accountIcon from "../../images/account.svg";
 
+import {useHistory} from 'react-router-dom'
+import {UserContext} from '../../App'
+
 class Sidebar extends React.Component {
+
+  //const {state,dispatch} = useContext(UserContext);
+  //const history = useHistory();
+
   static propTypes = {
     sidebarStatic: PropTypes.bool,
     sidebarOpened: PropTypes.bool,
@@ -51,6 +58,9 @@ class Sidebar extends React.Component {
   }
 
   doLogout() {
+    localStorage.clear();
+    //dispatch({type:"CLEAR"});
+    //history.push('/loginform');
     this.props.dispatch(logoutUser());
   }
 

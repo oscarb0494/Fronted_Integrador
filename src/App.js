@@ -26,16 +26,16 @@ const Routing = () => {
   const { state, dispatch } = useContext(UserContext)
   const [view, setView] = useState("basic");
 
-  /*useEffect(() => {
+  useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"))
     console.log(user);
 
     if (user) {
       dispatch({ type: "USER", payload: user })
     } else {
-      history.push('/LoginForm')
+      history.push('/loginform')
     }
-  }, [])*/
+  }, [])
 
   return (
     <Suspense fallback={<Loader

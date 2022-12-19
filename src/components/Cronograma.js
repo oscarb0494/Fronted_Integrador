@@ -122,10 +122,11 @@ export default () => {
 
       console.log(added)
 
-      fetch("http://localhost:3000/horario/createhorario", {
+      fetch("http://localhost:3000/reserva/createreserva/"+espacioid, {
         method: "post",
         headers: {
           "Content-Type": "application/json",
+          "Authorization": "Bearer "+localStorage.getItem("jwt")
         },
         body: JSON.stringify(added)
       }).then(res => res.json()).then(data => {
@@ -135,7 +136,6 @@ export default () => {
           console.log("agregado")
         }
       })
-
     }
     if (changed) {
       setData(data.map(appointment => (

@@ -4,8 +4,8 @@ const passwordRules = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}$/;
 // min 5 characters, 1 upper case letter, 1 lower case letter, 1 numeric digit.
 
 export const basicSchema = yup.object().shape({
-  email: yup.string().email("Please enter a valid email").required("Required"),
-  nombre: yup.string().required("Required"),
+  nombre: yup.string().required("Este es un campo obligatorio."),
+  email: yup.string().email("Ingresa un correo electronico valido.").required("Obligatorio"),
   password: yup
     .string()
     .min(5)
@@ -17,10 +17,14 @@ export const basicSchema = yup.object().shape({
     .required("Required"),
 });
 
+export const grupoSchema = yup.object().shape({
+  grupo: yup.number().min(1).required("Este dato es requerido")
+});
+
 export const loginSchema = yup.object().shape({
   email: yup.string().email("Por favor ingresa un email valido")
   .required("Required"),
-  Password: yup.string().required("Required")
+  password: yup.string().required("Required")
 })
 
 export const deptoSchema = yup.object().shape({

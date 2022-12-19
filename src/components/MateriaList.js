@@ -71,7 +71,7 @@ const MateriaList = ({ update }) => {
 											<Input type="checkbox" />
 										</div>
 									</td>
-									<td>{y.codigo}</td>
+									<td><Link to={"/app/grupos/"+y.id}>{y.codigo}</Link></td>
 									<td>{y.nombre}</td>
 									<td>{y.cupos_maximos}</td>
 								</tr>)}

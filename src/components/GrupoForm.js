@@ -1,16 +1,22 @@
 import { useFormik } from "formik";
-import { loginSchema } from "../schemas";
+import { grupoSchema } from "../schemas";
 
 import React,{useState,useContext} from 'react'
 import Swal from 'sweetalert2'
-import {useHistory} from 'react-router-dom'
+import {Link,useParams,useHistory} from 'react-router-dom'
 import {UserContext} from '../App'
 import Loader from "react-loader-spinner"
 
-const LoginForm = () => {
+const onSubmit = async (values, actions) => {
+  console.log(values);
+  console.log(actions);
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+  actions.resetForm();
+};
 
-  const {state,dispatch} = useContext(UserContext)
-  const history = useHistory();
+const GrupoForm = ({manageState}) => {
+
+  const {materiaid} = useParams()
 
   const Toast = Swal.mixin({
       toast: true,
@@ -24,11 +30,12 @@ const LoginForm = () => {
       }
   })
 
-    const login = (datos)=>{
-      fetch("http://localhost:3000/users/signin",{
+    const registrarGrupo = (datos)=>{
+      fetch("http://localhost:3000/grupo/creategrupo",{
         method:"post",
         headers:{
-          "Content-Type":"application/json"
+          "Content-Type":"application/json",
+          "Authorization": "Bearer "+localStorage.getItem("jwt"),
         },
         body: datos
       }).then(res=>res.json()).then(data=>{
@@ -40,16 +47,12 @@ const LoginForm = () => {
               footer: '<a href="">Why do I have this issue?</a>'
           })
         } else{
-          localStorage.setItem("jwt",data.token)
-          localStorage.setItem("user",JSON.stringify(data.user))
-          dispatch({type:"USER",payload:data.user})
-
           Toast.fire({
             icon: 'success',
             title: 'Signed in successfully'
           })
-          
-          history.push('/')
+
+          manageState()
         }
       })
   }
@@ -64,44 +67,29 @@ const LoginForm = () => {
     handleSubmit,
   } = useFormik({
     initialValues: {
-      email: "",
-      password: ""
+      grupo: "",
+      materia: materiaid
     },
-    validationSchema: loginSchema,
+    validationSchema: grupoSchema,
     onSubmit: values => {
-      login(JSON.stringify(values, null, 2));
+      registrarGrupo(JSON.stringify(values, null, 2));
     },
   });
-
-  console.log(errors);
 
   return (
     <form onSubmit={handleSubmit} autoComplete="off">
 
-      <label htmlFor="email">Email</label>
+      <label htmlFor="grupo">grupo</label>
       <input
-        value={values.email}
+        value={values.grupo}
         onChange={handleChange}
-        id="email"
-        type="email"
-        placeholder="Enter your email"
+        id="grupo"
+        type="text"
+        placeholder="Ingresa el nombre del departamento"
         onBlur={handleChange}
-        className={errors.email && touched.email ? "input-error" : ""}
+        className={errors.grupo && touched.grupo ? "input-error" : ""}
       />
-      {errors.email && touched.email && <p className="error">{errors.email}</p>}
-      <label htmlFor="password">Password</label>
-      <input
-        id="password"
-        type="password"
-        placeholder="Enter your password"
-        value={values.password}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        className={errors.password && touched.password ? "input-error" : ""}
-      />
-      {errors.password && touched.password && (
-        <p className="error">{errors.password}</p>
-      )}
+      {errors.grupo && touched.grupo && <p className="error">{errors.grupo}</p>}
 
       <button disabled={isSubmitting} type="submit"
       >
@@ -110,4 +98,4 @@ const LoginForm = () => {
     </form>
   );
 };
-export default LoginForm;
+export default GrupoForm;

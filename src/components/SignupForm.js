@@ -50,7 +50,7 @@ const SignupForm = () => {
               title: 'Signed in successfully'
           })
 
-          history.push('/signup')
+          history.push('/signin')
         }
       })
   }
@@ -77,8 +77,6 @@ const SignupForm = () => {
   });
 
   console.log(errors);
-
-
 
   return (
     <form onSubmit={handleSubmit} autoComplete="off">

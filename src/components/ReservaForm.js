@@ -1,16 +1,21 @@
 import { useFormik } from "formik";
-import { loginSchema } from "../schemas";
+import { deptoSchema } from "../schemas";
 
 import React,{useState,useContext} from 'react'
 import Swal from 'sweetalert2'
 import {useHistory} from 'react-router-dom'
 import {UserContext} from '../App'
-import Loader from "react-loader-spinner"
 
-const LoginForm = () => {
+const onSubmit = async (values, actions) => {
+  console.log(values);
+  console.log(actions);
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+  actions.resetForm();
+};
 
-  const {state,dispatch} = useContext(UserContext)
-  const history = useHistory();
+const ReservaForm = ({manageState}) => {
+
+  const [data,setData] = useState([])
 
   const Toast = Swal.mixin({
       toast: true,
@@ -24,8 +29,8 @@ const LoginForm = () => {
       }
   })
 
-    const login = (datos)=>{
-      fetch("http://localhost:3000/users/signin",{
+    const registrarDepartamento = (datos)=>{
+      fetch("http://localhost:3000/departamento/createdepartamento",{
         method:"post",
         headers:{
           "Content-Type":"application/json"
@@ -40,16 +45,14 @@ const LoginForm = () => {
               footer: '<a href="">Why do I have this issue?</a>'
           })
         } else{
-          localStorage.setItem("jwt",data.token)
-          localStorage.setItem("user",JSON.stringify(data.user))
-          dispatch({type:"USER",payload:data.user})
+
+          setData(data.departamentos)
+          manageState()
 
           Toast.fire({
             icon: 'success',
             title: 'Signed in successfully'
           })
-          
-          history.push('/')
         }
       })
   }
@@ -67,9 +70,10 @@ const LoginForm = () => {
       email: "",
       password: ""
     },
-    validationSchema: loginSchema,
-    onSubmit: values => {
-      login(JSON.stringify(values, null, 2));
+    validationSchema: deptoSchema,
+    onSubmit: (values,actions)  => {
+      registrarDepartamento(JSON.stringify(values, null, 2))
+      actions.resetForm()
     },
   });
 
@@ -78,29 +82,30 @@ const LoginForm = () => {
   return (
     <form onSubmit={handleSubmit} autoComplete="off">
 
-      <label htmlFor="email">Email</label>
+      <label htmlFor="nombre">Asunto:</label>
       <input
-        value={values.email}
+        value={values.asunto}
         onChange={handleChange}
-        id="email"
-        type="email"
-        placeholder="Enter your email"
+        id="asunto"
+        type="text"
+        placeholder="Ingresa el asunto"
         onBlur={handleChange}
-        className={errors.email && touched.email ? "input-error" : ""}
+        className={errors.asunto && touched.asunto ? "input-error" : ""}
       />
-      {errors.email && touched.email && <p className="error">{errors.email}</p>}
-      <label htmlFor="password">Password</label>
+      {errors.asunto && touched.asunto && <p className="error">{errors.asunto}</p>}
+
+      <label htmlFor="password">Descripción</label>
       <input
-        id="password"
-        type="password"
-        placeholder="Enter your password"
-        value={values.password}
+        id="descripcion"
+        type="text"
+        placeholder="Ingresa una descripción"
+        value={values.descripcion}
         onChange={handleChange}
         onBlur={handleBlur}
-        className={errors.password && touched.password ? "input-error" : ""}
+        className={errors.descripcion && touched.descripcion ? "input-error" : ""}
       />
-      {errors.password && touched.password && (
-        <p className="error">{errors.password}</p>
+      {errors.descripcion && touched.descripcion && (
+        <p className="error">{errors.descripcion}</p>
       )}
 
       <button disabled={isSubmitting} type="submit"
@@ -110,4 +115,4 @@ const LoginForm = () => {
     </form>
   );
 };
-export default LoginForm;
+export default DepartamentoForm;
