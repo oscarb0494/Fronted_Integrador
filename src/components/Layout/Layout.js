@@ -27,6 +27,10 @@ import RecursoView from "../RecursoView"
 import MateriaView from "../MateriaView"
 import SemestresView from "../SemestresView"
 import GrupoView from "../GrupoView"
+import EspacioEdit from "../EspacioEdit"
+import DepartamentoEdit from "../DepartamentoEdit"
+import MateriaEdit from "../MateriaEdit"
+import Logout from "../logout"
 
 class Layout extends React.Component {
   static propTypes = {
@@ -119,7 +123,9 @@ class Layout extends React.Component {
                       exact
                       component={SemestresView}
                     />
+
                     <Route path={"/app/typography"} component={SedeView} />
+                    <Route path={"/app/logout"} component={Logout} />
                     <Route path={"/app/tables"} component={DepartamentoView} />
                     <Route path={"/app/ui/maps"} component={SedeView} />
 
@@ -128,6 +134,10 @@ class Layout extends React.Component {
                     <Route path={"/app/recursos/:espacioid"} component={RecursoView} />
                     <Route path={"/app/materias/:dptoid"} component={MateriaView} />
                     <Route path={"/app/grupos/:materiaid"} component={GrupoView} />
+                    <Route path={"/app/editarespacio/:espacio_id"} component={EspacioEdit} />
+                    <Route path={"/app/editardepartamento/:dptoid"} component={DepartamentoEdit} />
+                    <Route path={"/app/editarmateria/:materiaid"} component={MateriaEdit} />
+
 
                     <Route
                       path={"/app/ui/notifications"}

@@ -13,6 +13,8 @@ const MateriaList = ({ update }) => {
 
 	const { dptoid } = useParams()
 
+	const [actualizar,setActualizar] = useState(true)
+
 	useEffect(() => {
 		console.log(dptoid)
 
@@ -29,7 +31,29 @@ const MateriaList = ({ update }) => {
 			}).catch(err => {
 				console.log(err)
 			})
-	}, [update])
+	}, [update,actualizar])
+
+
+	const deleteMateria = (materiaid)=>{
+		fetch('http://localhost:3000/materia/deletemateria/'+materiaid,{
+			method:"delete",
+			headers:{
+				"Authorization": "Bearer "+localStorage.getItem("jwt")
+			}
+		}).then(res=>res.json())
+			.then(result=>{
+				console.log("eliminado")
+				
+				if(actualizar==true){
+					setActualizar(false)
+				}else{
+					setActualizar(true)
+				}
+				setLoading(true)
+			}).catch(err=>{
+				console.log(err)
+			})
+	}
 
 	return (
 		loading ? <Loader
@@ -74,6 +98,10 @@ const MateriaList = ({ update }) => {
 									<td><Link to={"/app/grupos/"+y.id}>{y.codigo}</Link></td>
 									<td>{y.nombre}</td>
 									<td>{y.cupos_maximos}</td>
+									<td>
+						      			<i className="bi bi-trash" style={{float:"left"}} onClick={()=>deleteMateria(y.id)}></i>
+						      			<Link to={"/app/editarmateria/"+y.id}><i className="bi bi-pencil" style={{float:"left"}}></i></Link>
+							      	</td>
 								</tr>)}
 
 							</tbody>

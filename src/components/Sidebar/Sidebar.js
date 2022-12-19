@@ -209,6 +209,7 @@ class Sidebar extends React.Component {
               }
               header="Settings"
               isHeader
+              link="/app/logout"
               index="main"
             >
               <img
@@ -232,30 +233,24 @@ class Sidebar extends React.Component {
                 height={"24px"}
               />
             </LinksGroup>
-            <LinksGroup
+
+                      <LinksGroup
               onActiveSidebarItemChange={activeItem =>
                 this.props.dispatch(changeActiveSidebarItem(activeItem))
               }
-              header="Logout"
+              header="Salir"
               isHeader
-              onClick={() => this.doLogout()}
+              link="/app/logout"
+              index="main"
             >
-              {window.location.href.includes("another-page") ? (
-                <img
-                  src={logoutIcon}
-                  alt="lightDashboard"
-                  width={"24px"}
-                  height={"24px"}
-                />
-              ) : (
-                <img
-                  src={logoutIcon}
-                  alt="lightDashboard"
-                  width={"24px"}
-                  height={"24px"}
-                />
-              )}
+              <img
+                src={logoutIcon}
+                alt="lightDashboard"
+                width={"24px"}
+                height={"24px"}
+              />
             </LinksGroup>
+            
           </ul>
         </nav>
       </div>

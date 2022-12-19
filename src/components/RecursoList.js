@@ -18,6 +18,8 @@ const RecursosList = ({ update }) => {
 
     const checkboxes1 = [false, true, false, false]
 
+    const[actualizar,setActualizar] = useState(true)
+
     useEffect(() => {
         fetch("http://localhost:3000/recursos/getrecursos/" + espacioid, {
             method: "get",
@@ -29,8 +31,37 @@ const RecursosList = ({ update }) => {
                 setData(result.recursos)
                 setLoading(false)
             })
-    }, [update])
+    }, [update,actualizar])
 
+
+    const deleteRecurso = (recursoid)=>{
+        fetch('http://localhost:3000/recurso/deleterecurso/'+recursoid,{
+            method:"delete",
+            headers:{
+                "Authorization": "Bearer "+localStorage.getItem("jwt")
+            }
+        }).then(res=>res.json())
+            .then(result=>{
+
+               
+                console.log("eliminado")
+                
+                if(actualizar==true){
+                    setActualizar(false)
+                }else{
+                    setActualizar(true)
+                }
+
+                setLoading(true)
+              
+            }).catch(err=>{
+                console.log(err)
+            })
+
+            
+    }
+
+     
     return (
         loading ? <Loader
             className="centrar"
@@ -86,6 +117,9 @@ const RecursosList = ({ update }) => {
                                                     <td>{item.estado}</td>
                                                     <td>{item.prestable}</td>
                                                     <td>{item.createdAt}</td>
+                                                    <td>
+                                                          <i className="bi bi-trash" style={{float:"left"}} onClick={()=>deleteRecurso(item.id)}></i>
+                                                      </td>
                                                 </tr>
                                             )
                                         })

@@ -13,6 +13,7 @@ const DepartamentoList = ({update})=>{
 	const [loading, setLoading] = useState(true)
 
 	const [data,setData] = useState([])
+	const [actualizar, setActualizar] = useState(true)
 
 	const checkboxes1 = [false, true, false, false]
 
@@ -27,7 +28,28 @@ const DepartamentoList = ({update})=>{
 				setData(result.departamentos)
 				setLoading(false)
 			})
-		},[update])
+		},[update,actualizar])
+
+	const deleteDepartamento = (deptoid)=>{
+		fetch('http://localhost:3000/departamento/deletedepartamento/'+deptoid,{
+			method:"delete",
+			headers:{
+				"Authorization": "Bearer "+localStorage.getItem("jwt")
+			}
+		}).then(res=>res.json())
+			.then(result=>{
+				console.log("eliminado")
+				
+				if(actualizar==true){
+					setActualizar(false)
+				}else{
+					setActualizar(true)
+				}
+				setLoading(true)
+			}).catch(err=>{
+				console.log(err)
+			})
+	}
 
 	return (
 		loading?<Loader
@@ -79,6 +101,10 @@ const DepartamentoList = ({update})=>{
 						      						<td><Link to={"/app/materias/"+item.id}>{item.nombre}</Link></td>
 						      						<td>{item.descripcion}</td>
 						      						<td>{item.createdAt}</td>
+						      						<td>
+						      							<i className="bi bi-trash" style={{float:"left"}} onClick={()=>deleteDepartamento(item.id)}></i>
+						      							<Link to={"/app/editardepartamento/"+item.id}><i className="bi bi-pencil" style={{float:"left"}}></i></Link>
+						      						</td>
 						      					</tr>
 						      				)
 						      			})

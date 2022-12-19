@@ -103,14 +103,14 @@ export default () => {
 
 
   React.useEffect(() => {
-    fetch("http://localhost:3000/horario/gethorariosfinal/" + espacioid, {
+    fetch("http://127.0.0.1:3000/reserva/reservasespacio/" + espacioid, {
       headers: {
         "Content-Type": "application/json"
       }
     }).then(res => res.json())
       .then(result => {
-        setData(result.horario)
-        console.log(result.horario)
+        setData(result.reservas)
+        console.log(data)
       })
   }, [])
 
@@ -120,7 +120,7 @@ export default () => {
       const startingAddedId = data.length > 0 ? data[data.length - 1].id + 1 : 0;
       setData([...data, { id: startingAddedId, ...added }]);
 
-      console.log(added)
+      console.log(data)
 
       fetch("http://localhost:3000/reserva/createreserva/"+espacioid, {
         method: "post",

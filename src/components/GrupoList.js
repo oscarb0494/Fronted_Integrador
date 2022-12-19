@@ -106,6 +106,7 @@ const GrupoList = ({ update }) => {
 							</div>
 						</th>
 						<th>Grupo</th>
+						<th>Horario</th>
 					</tr>
 				</thead>
 				{
@@ -121,6 +122,24 @@ const GrupoList = ({ update }) => {
 										</div>
 									</td>
 									<td>{y.grupo}</td>
+
+									<td>
+
+										{
+											y.horarioMateria.map((y) =>
+
+											<div>
+											<label>dia: </label>	{y.dia}<br/>
+											<label>hora inicial: </label> {y.hora_inicial}<br/>
+											<label>hora final:</label>	{y.hora_final}<br/>
+											</div>
+
+											)
+										}
+
+
+									</td>
+
 									<td> 
 
 									<div className="form-group">
@@ -156,7 +175,7 @@ const GrupoList = ({ update }) => {
 										/>
 
 										<label>Espacio</label>
-										<select 
+										<select
 											className="form-control"
 											value={espacio}
 											onChange={(e)=>setEspacio(e.target.value)}

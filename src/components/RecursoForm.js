@@ -142,7 +142,8 @@ const RecursoForm = ({ manageState }) => {
 
                 <option value="1">Computadores</option>
                 <option value="2">Equipos tecnologicos</option>
-                <option value="3">Otros</option>
+                <option value="3">Muebles</option>
+                <option value="4">Otros</option>
 
             </select>
 

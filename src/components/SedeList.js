@@ -10,6 +10,7 @@ const SedeList = ({update})=>{
 	const [loading, setLoading] = useState(true)
 
 	const [data,setData] = useState([])
+	const [actualizar, setActualizar] = useState(true)
 
 	useEffect(()=>{
 		fetch("http://localhost:3000/sede/getsedes",{
@@ -22,7 +23,29 @@ const SedeList = ({update})=>{
 				setData(result.sedes)
 				setLoading(false)
 			})
-		},[update])
+		},[update,actualizar])
+
+	const deleteSede = (sedeid)=>{
+
+		fetch('http://localhost:3000/sede/deletesede/'+sedeid,{
+			method:"delete",
+			headers:{
+				"Authorization": "Bearer "+localStorage.getItem("jwt")
+			}
+		}).then(res=>res.json())
+			.then(result=>{
+				console.log("eliminado")
+				
+				if(actualizar==true){
+					setActualizar(false)
+				}else{
+					setActualizar(true)
+				}
+				setLoading(true)
+			}).catch(err=>{
+				console.log(err)
+			})
+	}
 
 	return (
 		loading?<Loader
@@ -70,6 +93,7 @@ const SedeList = ({update})=>{
 		      						<td>{item.nombre}</td>
 		      						<td>{item.descripcion}</td>
 		      						<td>{item.createdAt}</td>
+		      						<td><i className="bi bi-trash" style={{float:"left"}} onClick={()=>deleteSede(item.id)}></i></td>
 		      					</tr>
 		      				)
 		      			})

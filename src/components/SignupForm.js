@@ -50,7 +50,7 @@ const SignupForm = () => {
               title: 'Signed in successfully'
           })
 
-          history.push('/signin')
+          history.push('/loginform')
         }
       })
   }

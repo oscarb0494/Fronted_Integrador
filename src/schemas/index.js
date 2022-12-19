@@ -53,7 +53,7 @@ export const sedeSchema = yup.object().shape({
 
 export const espacioSchema = yup.object().shape({
   nombre: yup.string().required("Required"),
-  descripcion: yup.string().required("Required"),
+  descripcion: yup.string(),
   capacidad: yup.number().required("Required")
 })
 
